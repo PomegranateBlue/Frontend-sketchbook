@@ -1,14 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import AnimatedList from "@/components/AnimatedList";
 interface Todo {
   id: number;
   text: string;
   completed: boolean;
 }
-
-const TEST = ["할 일 1", "할 일 2", "할 일 3"];
 
 const App = () => {
   // 투두 변수명을 다시 한 번 지어보자, 애초에 영어로 짓다보니 s 사용때문에 곤란하다
@@ -55,24 +53,11 @@ const App = () => {
       </form>
       <div className="grid grid-cols-2 gap-4 mt-6 w-full max-w-xl">
         <AnimatedList
-          items={todos.map((todo) => todo.text)}
+          items={useMemo(() => todos.map((todo) => todo.text), [todos])}
           showGradients={true}
           displayScrollbar={true}
           onItemSelect={() => {}}
         />
-        {/* {todos.map((todo) => (
-          <div
-            key={todo.id}
-            className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm
-                       transition-all duration-200
-                       hover:shadow-md hover:-translate-y-1 hover:border-amber-400"
-          >
-            <p className="text-gray-800 font-medium">{todo.text}</p>
-            <span className="text-xs text-gray-400 mt-1 block">
-              {todo.completed ? "✅ 완료" : "⏳ 미완료"}
-            </span>
-          </div>
-        ))} */}
       </div>
     </main>
   );
