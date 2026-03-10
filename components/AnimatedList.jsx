@@ -136,6 +136,8 @@ const AnimatedList = ({
   useEffect(() => {
     if (!enableArrowNavigation) return;
     const handleKeyDown = (e) => {
+      const tag = document.activeElement?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA") return;
       if (["ArrowDown", "ArrowUp", "Tab", "Enter"].includes(e.key)) {
         e.preventDefault();
         handleKeyEvent(e.key, e.shiftKey);
