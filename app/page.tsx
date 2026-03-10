@@ -21,6 +21,8 @@ const App = () => {
   ]);
   //위에거는 개별적인 할 일을 모아놓은 것으로 복수의 데이터를 다룬다
 
+  const todoTexts = useMemo(() => todos.map((todo) => todo.text), [todos]);
+
   const addTodo = () => {
     if (!inputText.trim()) return;
     const newTodo: Todo = {
@@ -51,10 +53,10 @@ const App = () => {
           추가
         </button>
       </form>
-      <div className="grid grid-cols-2 gap-4 mt-6 w-full max-w-xl">
+      <div className="grid grid-cols-2 gap-4 mt-6 w-full max-w-xl min-h-32">
         <AnimatedList
-          items={useMemo(() => todos.map((todo) => todo.text), [todos])}
-          showGradients={true}
+          items={todoTexts}
+          showGradients={false}
           displayScrollbar={true}
           onItemSelect={() => {}}
         />
