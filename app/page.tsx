@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
+import AnimatedList from "@/components/AnimatedList";
 interface Todo {
   id: number;
   text: string;
@@ -35,7 +35,7 @@ const App = () => {
   };
 
   return (
-    <main>
+    <main className="flex flex-col items-center justify-center p-8">
       <h2>So I can shout out loud in my own Convenience</h2>
       <form
         onSubmit={(e) => {
@@ -44,19 +44,36 @@ const App = () => {
         }}
       >
         <input
+          className="border-amber-500 border-2 rounded-lg p-1"
           type="text"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
         />
-        <button type="submit">추가</button>
+        <button className="border-2" type="submit">
+          추가
+        </button>
       </form>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>
-            {todo.text} {todo.completed ? "(완료)" : "(미완료)"}
-          </li>
-        ))}
-      </ul>
+      <div className="grid grid-cols-2 gap-4 mt-6 w-full max-w-xl">
+        <AnimatedList
+          items={todos.map((todo) => todo.text)}
+          showGradients={true}
+          displayScrollbar={true}
+          onItemSelect={() => {}}
+        />
+        {/* {todos.map((todo) => (
+          <div
+            key={todo.id}
+            className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm
+                       transition-all duration-200
+                       hover:shadow-md hover:-translate-y-1 hover:border-amber-400"
+          >
+            <p className="text-gray-800 font-medium">{todo.text}</p>
+            <span className="text-xs text-gray-400 mt-1 block">
+              {todo.completed ? "✅ 완료" : "⏳ 미완료"}
+            </span>
+          </div>
+        ))} */}
+      </div>
     </main>
   );
 };
