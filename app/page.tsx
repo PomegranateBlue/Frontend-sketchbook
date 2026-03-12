@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import AnimatedList from "@/components/AnimatedList";
+
 interface Todo {
   id: number;
   text: string;
