@@ -73,8 +73,8 @@ const App = () => {
         ) : (
           <AnimatedList
             items={todoTexts}
-            onItemSelect={(_item: string, index: number) =>
-              deleteTodo(todos[index].id)
+            onItemSelect={(_item: string, todosIndex: number) =>
+              deleteTodo(todos[todosIndex].id)
             }
             showGradients={false}
             displayScrollbar={true}
