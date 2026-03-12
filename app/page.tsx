@@ -5,7 +5,10 @@ import dynamic from "next/dynamic";
 import AnimatedList from "@/components/AnimatedList";
 import type { PillNavItem } from "@/components/PillNav";
 
-const PillNav = dynamic(() => import("@/components/PillNav"), { ssr: false });
+const PillNav = dynamic(() => import("@/components/PillNav"), {
+  ssr: false,
+  loading: () => <div style={{ height: "42px" }} />,
+});
 interface Todo {
   id: number;
   text: string;
