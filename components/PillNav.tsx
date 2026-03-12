@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { gsap } from "gsap";
 
 export type PillNavItem = {
@@ -246,8 +248,6 @@ const PillNav: React.FC<PillNavProps> = ({
     href.startsWith("tel:") ||
     href.startsWith("#");
 
-  const isRouterLink = (href?: string) => href && !isExternalLink(href);
-
   const cssVars = {
     ["--base"]: baseColor,
     ["--pill-bg"]: pillColor,
@@ -260,59 +260,34 @@ const PillNav: React.FC<PillNavProps> = ({
   } as React.CSSProperties;
 
   return (
-    <div className="absolute top-[1em] z-[1000] w-full left-0 md:w-auto md:left-auto">
+    <div className="relative z-[1000] w-full flex justify-center">
       <nav
         className={`w-full md:w-max flex items-center justify-between md:justify-start box-border px-4 md:px-0 ${className}`}
         aria-label="Primary"
         style={cssVars}
       >
-        {isRouterLink(items?.[0]?.href) ? (
-          <Link
-            to={items[0].href}
-            aria-label="Home"
-            onMouseEnter={handleLogoEnter}
-            role="menuitem"
-            ref={(el) => {
-              logoRef.current = el;
-            }}
-            className="rounded-full p-2 inline-flex items-center justify-center overflow-hidden"
-            style={{
-              width: "var(--nav-h)",
-              height: "var(--nav-h)",
-              background: "var(--base, #000)",
-            }}
-          >
-            <img
-              src={logo}
-              alt={logoAlt}
-              ref={logoImgRef}
-              className="w-full h-full object-cover block"
-            />
-          </Link>
-        ) : (
-          <a
-            href={items?.[0]?.href || "#"}
-            aria-label="Home"
-            onMouseEnter={handleLogoEnter}
-            ref={(el) => {
-              logoRef.current = el;
-            }}
-            className="rounded-full p-2 inline-flex items-center justify-center overflow-hidden"
-            style={{
-              width: "var(--nav-h)",
-              height: "var(--nav-h)",
-              background: "var(--base, #000)",
-            }}
-          >
-            <img
-              src={logo}
-              alt={logoAlt}
-              ref={logoImgRef}
-              className="w-full h-full object-cover block"
-            />
-          </a>
-        )}
-
+        <Link
+          href={items?.[0]?.href || "#"}
+          aria-label="Home"
+          onMouseEnter={handleLogoEnter}
+          role="menuitem"
+          ref={(el) => {
+            logoRef.current = el as HTMLAnchorElement;
+          }}
+          className="rounded-full p-2 inline-flex items-center justify-center overflow-hidden"
+          style={{
+            width: "var(--nav-h)",
+            height: "var(--nav-h)",
+            background: "var(--base, #000)",
+          }}
+        >
+          <img
+            src={logo}
+            alt={logoAlt}
+            ref={logoImgRef}
+            className="w-full h-full object-cover block"
+          />
+        </Link>
         <div
           ref={navItemsRef}
           className="relative items-center rounded-full hidden md:flex ml-2"
@@ -382,31 +357,17 @@ const PillNav: React.FC<PillNavProps> = ({
 
               return (
                 <li key={item.href} role="none" className="flex h-full">
-                  {isRouterLink(item.href) ? (
-                    <Link
-                      role="menuitem"
-                      to={item.href}
-                      className={basePillClasses}
-                      style={pillStyle}
-                      aria-label={item.ariaLabel || item.label}
-                      onMouseEnter={() => handleEnter(i)}
-                      onMouseLeave={() => handleLeave(i)}
-                    >
-                      {PillContent}
-                    </Link>
-                  ) : (
-                    <a
-                      role="menuitem"
-                      href={item.href}
-                      className={basePillClasses}
-                      style={pillStyle}
-                      aria-label={item.ariaLabel || item.label}
-                      onMouseEnter={() => handleEnter(i)}
-                      onMouseLeave={() => handleLeave(i)}
-                    >
-                      {PillContent}
-                    </a>
-                  )}
+                  <Link
+                    role="menuitem"
+                    href={item.href}
+                    className={basePillClasses}
+                    style={pillStyle}
+                    aria-label={item.ariaLabel || item.label}
+                    onMouseEnter={() => handleEnter(i)}
+                    onMouseLeave={() => handleLeave(i)}
+                  >
+                    {PillContent}
+                  </Link>
                 </li>
               );
             })}
@@ -464,29 +425,16 @@ const PillNav: React.FC<PillNavProps> = ({
 
             return (
               <li key={item.href}>
-                {isRouterLink(item.href) ? (
-                  <Link
-                    to={item.href}
-                    className={linkClasses}
-                    style={defaultStyle}
-                    onMouseEnter={hoverIn}
-                    onMouseLeave={hoverOut}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                ) : (
-                  <a
-                    href={item.href}
-                    className={linkClasses}
-                    style={defaultStyle}
-                    onMouseEnter={hoverIn}
-                    onMouseLeave={hoverOut}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {item.label}
-                  </a>
-                )}
+                <Link
+                  href={item.href}
+                  className={linkClasses}
+                  style={defaultStyle}
+                  onMouseEnter={hoverIn}
+                  onMouseLeave={hoverOut}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item.label}
+                </Link>
               </li>
             );
           })}

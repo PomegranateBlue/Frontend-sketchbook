@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import AnimatedList from "@/components/AnimatedList";
-
+import PillNav, { PillNavItem } from "@/components/PillNav";
 interface Todo {
   id: number;
   text: string;
@@ -23,7 +23,11 @@ const App = () => {
   //위에거는 개별적인 할 일을 모아놓은 것으로 복수의 데이터를 다룬다
 
   const todoTexts = useMemo(() => todos.map((todo) => todo.text), [todos]);
-
+  const PillNavLogo = "./favicon.ico";
+  const PillNavItems: PillNavItem[] = [
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+  ];
   const addTodo = () => {
     if (!inputText.trim()) return;
     const newTodo: Todo = {
@@ -37,8 +41,9 @@ const App = () => {
 
   return (
     <main className="flex flex-col items-center justify-center p-8">
-      <h2>So I can shout out loud in my own Convenience</h2>
+      <PillNav className="flex m-8" logo={PillNavLogo} items={PillNavItems} />
       <form
+        className="flex"
         onSubmit={(e) => {
           e.preventDefault();
           addTodo();
@@ -54,7 +59,7 @@ const App = () => {
           추가
         </button>
       </form>
-      <div className="grid grid-cols-2 gap-4 mt-6 w-full max-w-xl min-h-32">
+      <div className="flex grid grid-cols-2 gap-4 mt-6 w-full max-w-xl min-h-32">
         <AnimatedList
           items={todoTexts}
           showGradients={false}
