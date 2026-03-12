@@ -1,8 +1,11 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import dynamic from "next/dynamic";
 import AnimatedList from "@/components/AnimatedList";
-import PillNav, { PillNavItem } from "@/components/PillNav";
+import type { PillNavItem } from "@/components/PillNav";
+
+const PillNav = dynamic(() => import("@/components/PillNav"), { ssr: false });
 interface Todo {
   id: number;
   text: string;
