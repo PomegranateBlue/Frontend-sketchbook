@@ -21,11 +21,8 @@ const App = () => {
 
   const [inputText, setInputText] = useState<string>("");
   //이건 개별적인 투두를 다르게 될 상태이다
-  const [todos, setTodos] = useState<Todo[]>([
-    { id: 1, text: "할 일 1", completed: false },
-    { id: 2, text: "할 일 2", completed: false },
-    { id: 3, text: "할 일 3", completed: false },
-  ]);
+
+  const [todos, setTodos] = useState<Todo[]>([]);
   //위에거는 개별적인 할 일을 모아놓은 것으로 복수의 데이터를 다룬다
 
   const todoTexts = useMemo(() => todos.map((todo) => todo.text), [todos]);
@@ -41,6 +38,10 @@ const App = () => {
     setInputText("");
   };
 
+  const deleteTodo = (id: number) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
   return (
     <main className="flex flex-col items-center justify-center p-8">
       <PillNav className="" logo={PillNavLogo} items={PillNavItems} />
@@ -52,7 +53,7 @@ const App = () => {
         }}
       >
         <input
-          className="flex border-amber-500 border-2 rounded-lg p-1"
+          className="flex border-amber-500 border-2 rounded-lg p-1 text-white"
           type="text"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
@@ -65,12 +66,20 @@ const App = () => {
         </button>
       </form>
       <div className=" grid grid-cols-2 gap-4 mt-6 w-full max-w-xl min-h-32">
-        <AnimatedList
-          items={todoTexts}
-          showGradients={false}
-          displayScrollbar={true}
-          onItemSelect={() => {}}
-        />
+        {todos.length === 0 ? (
+          <p className="col-span-2 text-center text-gray-500">
+            할 일이 없습니다.
+          </p>
+        ) : (
+          <AnimatedList
+            items={todoTexts}
+            onItemSelect={(_item: string, index: number) =>
+              deleteTodo(todos[index].id)
+            }
+            showGradients={false}
+            displayScrollbar={true}
+          />
+        )}
       </div>
     </main>
   );
